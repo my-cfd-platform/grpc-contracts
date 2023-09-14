@@ -1,5 +1,7 @@
 use async_trait::async_trait;
 
+const STRING: &str = env!("OUT_DIR");
+
 #[cfg(feature = "accounts-manager")]
 grpc_contracts_macros::make_answer!(
     package_name = "accounts_manager",
