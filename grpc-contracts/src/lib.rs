@@ -119,11 +119,10 @@ pub mod trader_credentials_grpc {
 }
 
 #[cfg(feature = "trading-executor")]
-grpc_contracts_macros::make_answer!(
-    package_name = "trading_executor",
-    file_name = "TradingExecutorGrpcService",
-    client_name = "TradingExecutorGrpcClient"
-);
+pub mod trading_executor_grpc {
+    tonic::include_proto!("trading_executor");
+}
+
 
 #[cfg(feature = "verifications")]
 pub mod verifications_grpc {
