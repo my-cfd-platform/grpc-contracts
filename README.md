@@ -18,8 +18,9 @@ pub mod your_namespace_grpc {
     tonic::include_proto!("position_manager_persistence");
 }
 ```
-4. Connect this library on your external service. (Don't forget to activate your feature)
-5. Done. You can get access to your contacts. 
+4. Create new release tag.
+5. Add this library to your project dependencies. (Don't forget to activate your feature and add correct tag version)
+6. Done. You can get access to your contacts. 
 
 ```rust,no_run
 fn main() {
