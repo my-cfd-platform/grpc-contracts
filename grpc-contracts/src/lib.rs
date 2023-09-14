@@ -1,7 +1,11 @@
+use async_trait::async_trait;
+
 #[cfg(feature = "accounts-manager")]
-pub mod accounts_manager_grpc {
-    tonic::include_proto!("accounts_manager");
-}
+grpc_contracts_macros::make_answer!(
+    package_name = "accounts_manager",
+    file_name = "AccountsManagerGrpcService",
+    client_name = "AccountsManagerGrpcClient"
+);
 
 #[cfg(feature = "accounts-manager-persistence")]
 pub mod accounts_manager_persistence_grpc {
@@ -109,7 +113,14 @@ pub mod trader_credentials_grpc {
 }
 
 #[cfg(feature = "trading-executor")]
+grpc_contracts_macros::make_answer!(
+    package_name = "trading_executor",
+    file_name = "TradingExecutorGrpcService",
+    client_name = "TradingExecutorGrpcClient"
+);
+
 pub mod trading_executor_grpc {
+    
     tonic::include_proto!("trading_executor");
 }
 

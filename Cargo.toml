@@ -1,44 +1,5 @@
-[package]
-name = "grpc-contracts"
-version = "0.1.0"
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[features]
-accounts-manager = []
-accounts-manager-persistence = []
-authentication-integration = []
-candles = []
-comments-flows = []
-deposit-flows = []
-deposit-log = []
-documents-flows = []
-email-bridge = []
-favorite-instruments-flows = []
-keyvalue = []
-kyc-log = []
-kyc = []
-manager-access-flows = []
-pci-dss-bank-cards = []
-personal-data-flows = []
-psp-redirect-integration = []
-report-grpc = []
-reset-password-codes = []
-status-flows = []
-trade-log = []
-trader-credentials = []
-trading-executor = []
-verifications = []
-withdrawals-flows = []
-withdrawal-log = []
-position-manager = []
-position-manager-persistence = []
-
-[dependencies]
-prost = "*"
-prost-types = "*"
-tonic = { version = "*", features = ["tls", "tls-roots", "prost"] }
-
-[build-dependencies]
-tonic-build = { version = "0.10.0", features = ["prost"] }
+[workspace]
+members = [
+    "grpc-contracts-macros",
+    "grpc-contracts",
+]
