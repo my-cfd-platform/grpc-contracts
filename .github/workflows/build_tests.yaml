@@ -15,13 +15,6 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::$(echo ${GITHUB_REF_NAME})
-
-      - name: Updating version
-        run: sed -i -e 's/^version = .*/version = "${{ steps.get_version.outputs.VERSION }}"/' Cargo.toml
 
       - name: Install Protoc
         uses: arduino/setup-protoc@v1
