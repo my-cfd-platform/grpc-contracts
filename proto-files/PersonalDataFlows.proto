@@ -1,0 +1,59 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package pd;
+
+message GetPersonalDataRequest {
+    string Id = 1;
+}
+
+message GetPersonalDataResponse{
+    PersonalDataModel PersonalDataModel = 1;
+}
+
+message SetPersonalDataRequest{
+    PersonalDataModel PersonalDataModel = 1;
+    string Who=2;
+}
+
+
+message SetPersonalDataResponse{
+    PersonalDataModel PersonalDataModel = 1;
+}
+
+enum Sex{
+    Male =0;
+    Female=1;
+}
+
+message PersonalDataModel {
+    string Id = 1;
+    optional string Email = 2;
+    optional string FirstName = 3;
+    optional string LastName = 4;
+    optional string City = 5;
+    optional int64 DateOfBirth = 6;
+    optional string CountryOfResidence = 7;
+    optional string CountryOfCitizenship = 8;
+    optional string ZipCode = 9;
+    optional string Phone = 10;
+    optional string Address = 11;
+    optional Sex Sex = 12;
+}
+
+message SearchPersonal {
+    repeated string Ids = 1;
+    optional string Name = 2;
+    optional string Surname = 3;
+    optional string Email = 4;
+    optional string Residence = 5;
+    optional string Citizenship = 6;
+    optional Sex Sex = 7;
+}
+
+service PersonalDataService {
+    rpc Get(GetPersonalDataRequest) returns (GetPersonalDataResponse);
+    rpc Set(SetPersonalDataRequest) returns (SetPersonalDataResponse);
+    rpc Search(SearchPersonal) returns (stream PersonalDataModel);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

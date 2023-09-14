@@ -1,0 +1,31 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+package ManagerAccessFlows;
+
+message AccessRequest {
+    string ManagerId = 1;
+    optional string TraderId = 2;
+}
+
+message TraderAccessModel {
+    string TraderId = 1;
+    string ManagerId = 2;
+    string ManagerType = 3;
+}
+
+message SearchManager {
+    repeated string TraderIds = 1;
+    repeated string ManagerIds = 2;
+    optional string ManagerType = 3;
+}
+
+service ManagerAccessService {
+    rpc CanAccess(ManagerAccessFlows.AccessRequest) returns (google.protobuf.BoolValue);
+    rpc SetAccess(ManagerAccessFlows.TraderAccessModel) returns (google.protobuf.Empty);
+    rpc GetManagerAccess(ManagerAccessFlows.AccessRequest) returns (stream TraderAccessModel);
+    rpc GetTraderManagers(ManagerAccessFlows.AccessRequest) returns (stream TraderAccessModel);
+    rpc Search(ManagerAccessFlows.SearchManager) returns (stream TraderAccessModel);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

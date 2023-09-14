@@ -1,0 +1,29 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package pci_dss_bank_cards;
+
+
+message PciDssDepositGrpcRequest {
+   string DepositId = 1;
+   string CardNumber = 2;
+   string CardHolder = 3;
+   int32 Month = 4;
+   int32 Year = 5;
+   string CVC = 6;
+}
+
+
+
+message PciDssDepositGrpcResponse{
+    string ErrorIfOccurs = 1;
+    string GoTo3DsUrlIfOccurs = 2;
+    string IFrameTo3DsUrlIfOccurs = 3;
+    string PaymentSystemId = 4;
+    string ReferenceId = 5;
+}
+
+service PciDssBankCards {
+    rpc Deposit(PciDssDepositGrpcRequest) returns (PciDssDepositGrpcResponse);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

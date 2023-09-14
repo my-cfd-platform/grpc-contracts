@@ -1,0 +1,39 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package StatusFlows;
+
+message RequestById {
+    string Id = 1;
+}
+
+message SearchStatus {
+    optional string Name = 1;
+    optional string Value = 2;
+    optional string Label = 3;
+    repeated string TraderIds = 4;
+}
+
+message StatusGrpcModel {
+    string Id = 1;
+    string Name = 2;
+    optional string Value = 3;
+    optional string Label = 4;
+}
+
+message GetStatusResponse {
+    optional StatusGrpcModel Data = 1;
+}
+
+message GetStatusesResponse {
+    map<string, string> Statuses = 1;
+    map<string, string> Labels = 2;
+}
+
+service StatusService {
+    rpc GetStatuses(StatusFlows.RequestById) returns (StatusFlows.GetStatusesResponse);
+    rpc GetStatus(StatusFlows.StatusGrpcModel) returns (StatusFlows.GetStatusResponse);
+    rpc SetStatus(StatusFlows.StatusGrpcModel) returns (google.protobuf.Empty);
+    rpc Search(StatusFlows.SearchStatus) returns (stream StatusFlows.StatusGrpcModel);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

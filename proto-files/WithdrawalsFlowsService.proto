@@ -1,0 +1,48 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package withdrawals_flows;
+
+enum WithdrawalPaymentSystemType{
+    WireTransfer = 0;
+}
+
+enum WithdrawalStatus{
+    Pending = 0;
+    Processed = 1;
+    Canceled = 2;
+}
+
+message RegisterWithdrawalRequest {
+    string TraderId = 1;
+    string AccountId = 2;
+    WithdrawalPaymentSystemType PaymentSystemType = 3;
+    string PaymentSystemCredentials = 4;
+    double WithdrawalAmount = 5;
+}
+
+message RegisterWithdrawalResponse {
+    WithdrawalGrpcModel Model = 1;
+}
+
+message WithdrawalGrpcModel{
+    string Id = 1;
+    string TraderId = 2;
+
+    int64 CreatedAt = 3;
+
+    string AccountId = 4;
+
+    WithdrawalPaymentSystemType PaymentSystemType = 5;
+    string PaymentSystemId = 6;
+    double PaymentSystemAmount = 7;
+
+    int64 ProcessedAsOkAt = 8;
+    int64 CanceledAt = 9;
+    string ProcessedComment = 10;
+}
+
+service DepositFlowsService {
+    rpc Register(RegisterWithdrawalRequest) returns (RegisterWithdrawalResponse);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

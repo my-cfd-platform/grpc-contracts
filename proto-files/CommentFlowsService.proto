@@ -1,0 +1,39 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package CommentFlows;
+
+message RequestByCategory {
+    string Category = 1;
+}
+
+message SearchComments {
+    repeated string Categories = 1;
+    repeated string Authors = 2;
+    optional string Comment = 3;
+    optional FromToUint64Model DateRange = 4;
+}
+
+message FromToUint64Model{
+    optional uint64 From = 1;
+    optional uint64 To = 2;
+}
+
+message CommentGrpcModel {
+    string Id = 1;
+    uint64 UnixEpochTime = 2;
+    string Category = 3;
+    string Author = 4;
+    string Comment = 5;
+}
+
+message GetCommentsResponse {
+    repeated CommentGrpcModel Data = 1;
+}
+
+service CommentService {
+    rpc GetComments(RequestByCategory) returns (GetCommentsResponse);
+    rpc SetComment(CommentGrpcModel) returns (google.protobuf.Empty);
+    rpc Search(SearchComments) returns (stream CommentGrpcModel);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

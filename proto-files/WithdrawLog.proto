@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package withdrawal_log;
+
+
+message WithdrawalLogGrpcItem {
+   string Id = 1;
+   int64 Moment = 2;
+   string Message = 3;
+   string TechInfo = 4;
+}
+
+message GetByWithdrawalRequest {
+    string Id = 1;
+}
+
+service WithdrawalLog {
+    rpc Write(WithdrawalLogGrpcItem) returns (google.protobuf.Empty);
+    rpc Get(GetByWithdrawalRequest) returns (stream WithdrawalLogGrpcItem);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

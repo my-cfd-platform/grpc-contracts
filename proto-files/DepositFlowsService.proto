@@ -1,0 +1,67 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package deposit_flows;
+
+
+enum PaymentSystemType{
+    BankCards =0;
+    PayNetEasy = 1;
+}
+
+message RegisterRequest {
+    string TraderId = 1;
+    string AccountId = 2;
+    string AccountCurrency = 3;
+    double AccountDepositAmount = 4;
+
+    PaymentSystemType PaymentSystemType = 5;
+    string PaymentSystemId = 6;
+    string PaymentSystemReferenceId = 7;
+    string PaymentSystemCurrency = 8;
+    double PaymentSystemAmount = 9;
+}
+
+message RegisterResponse {
+    DepositGrpcModel DepositModel = 1;
+}
+
+message DepositGrpcModel{
+    string Id = 1;
+    string TraderId = 2;
+
+    int64 CreatedAt = 3;
+
+    string AccountId = 4;
+    string AccountCurrency = 5;
+    double AccountDepositAmount = 6;
+
+    PaymentSystemType PaymentSystemType = 7;
+    string PaymentSystemId = 8;
+    string PaymentSystemReferenceId = 9;
+    string PaymentSystemCurrency = 10;
+    double PaymentSystemAmount = 11;
+
+    int64 AcceptedAt = 12;
+    int64 RejectedAt = 13;
+}
+
+message UpdatePaymentSystemReferenceIdRequest {
+  string Id = 1;
+  string PaymentSystemId = 2;
+  string ReferenceId = 3;
+}
+
+message MarkAsFailRequest {
+    string Id = 1;
+    string TechInfo = 2;
+}
+  
+
+
+service DepositFlowsService {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc UpdatePaymentSystemReferenceId(UpdatePaymentSystemReferenceIdRequest) returns (google.protobuf.Empty);
+    rpc MarkAsFail(MarkAsFailRequest) returns (google.protobuf.Empty);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }

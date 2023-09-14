@@ -1,0 +1,134 @@
+
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+package docs;
+
+
+enum DocType{
+    PoIAsIdPassport = 0;
+    PoIAsIdCard = 1;
+    PoIAsDrivingLicense = 2;
+    PoIAsOther = 3;
+    PoAAsIdCard = 4;
+    PoAAsDrivingLicense = 5;
+    PoAAsUtilityBill = 6;
+    PoAAsBankStatement = 7;
+    PoAAsRentalAgreement = 8;
+    PoAAsInsurance = 9;
+    PoAAsTaxBill=10;
+    PoAAsAffidavit=11;
+    PoAAsFamilyCard=12;
+    PoAAsIBDeclaration=13;
+    PoAAsOther=14;
+    Other = 999;
+}
+
+enum DocumentStatus{
+    New=0;
+    Approved=1;
+    Partial=2;
+    NotVerified=3;
+    Rejected=4;
+}
+
+enum DocumentRejectReason{
+    NotSet = 0;
+    CutOrCroppedDocument=1;
+    ExpiredDocument=2;
+    ColorCopyNeeded=3;
+    BlurryOrBadQuality=4;
+    NotAcceptableTypeOfDocument=5;
+    ThirdPartyName =6;
+    FrontSideOfTheDocumentNeeded=7;
+    BacksideOfTheDocumentNeeded=8;
+    Duplicate=9;
+    Underage=10;
+    NoIssueDate=11;
+    NoFullAddress=12;
+    AdditionalDocumentRequired=13;
+    OtherRejectReason=14;
+}
+
+// GET
+message GetDocumentsRequest {
+    string ClientId = 1;
+    repeated string DocIds = 2;
+}
+
+message DocumentModel{
+    string DocId = 1;
+    int64 UploadedAt = 2;
+    docs.DocType DocType = 3;
+    string ContentType = 4;
+    DocumentStatus Status = 5;
+    DocumentRejectReason RejectReason = 6;
+    bytes Content = 7;
+}
+
+message UploadDocumentRequest{
+    string ClientId = 1;
+    docs.DocType DocType = 2;
+    string ContentType = 3;
+    bytes Content = 4;
+    string Who = 5;
+    int64 Expires = 6;
+    string Comment = 7;
+}
+
+message DocumentItemModel{
+    string DocId = 1;
+    int64 UploadedAt = 2;
+    docs.DocType DocType = 3;
+    string ContentType = 4;
+    optional int64 DeletedAt = 5;
+    int64 Expires = 6;
+    string Comment = 7;
+    DocumentStatus Status = 8;
+    DocumentRejectReason RejectReason = 9;
+}
+
+message DeleteDocumentRequest{
+    string ClientId = 1;
+    string DocId = 2;
+    string Who = 3;
+}
+
+message GetDocumentsListRequest {
+    string ClientId = 1;
+    bool WithDeleted = 2;
+}
+
+
+message UpdateExpiresRequest{
+    string ClientId = 1;
+    string DocId = 2;
+    int64 Expires = 3;
+    string Who = 4;
+}
+
+
+message UpdateCommentRequest{
+    string ClientId = 1;
+    string DocId = 2;
+    string Comment = 3;
+    string Who = 4;
+}
+
+message UpdateDocumentStatusRequest{
+    string ClientId = 1;
+    string DocId = 2;
+    DocumentStatus Status=3;
+    DocumentRejectReason RejectReason=4;
+    string Who = 5;
+}
+
+service DocumentsService {
+    rpc Get(docs.GetDocumentsRequest) returns (stream DocumentModel);
+    rpc GetDocumentsList(GetDocumentsListRequest) returns (stream DocumentItemModel);
+    rpc Upload(docs.UploadDocumentRequest) returns (DocumentItemModel);
+    rpc Delete(DeleteDocumentRequest) returns (google.protobuf.Empty);
+    rpc UpdateExpires(UpdateExpiresRequest) returns (google.protobuf.Empty);
+    rpc UpdateComment(UpdateCommentRequest) returns (google.protobuf.Empty);
+    rpc UpdateStatus(UpdateDocumentStatusRequest) returns (google.protobuf.Empty);
+    rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+ }
