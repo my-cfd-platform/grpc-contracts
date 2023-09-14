@@ -1,6 +1,10 @@
+use std::env;
+
 use async_trait::async_trait;
 
-const STRING: &str = env!("OUT_DIR");
+pub fn get_proto_files_dir() -> String {
+    format!("{}/proto-files", env::var("OUT_DIR").unwrap())
+}
 
 #[cfg(feature = "accounts-manager")]
 grpc_contracts_macros::make_answer!(

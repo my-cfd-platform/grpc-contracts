@@ -48,5 +48,8 @@ my-telemetry = { tag = "1.0.1", git = "https://github.com/MyJetTools/my-telemetr
     "my-telemetry-writer",
 ] }
 grpc-contracts-macros = { path = "../grpc-contracts-macros" }
+
 [build-dependencies]
 tonic-build = { version = "0.10.0", features = ["prost"] }
+fs_extra = "*"
+
