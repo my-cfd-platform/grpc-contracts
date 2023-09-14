@@ -119,11 +119,6 @@ grpc_contracts_macros::make_answer!(
     client_name = "TradingExecutorGrpcClient"
 );
 
-pub mod trading_executor_grpc {
-    
-    tonic::include_proto!("trading_executor");
-}
-
 #[cfg(feature = "verifications")]
 pub mod verifications_grpc {
     tonic::include_proto!("verifications");

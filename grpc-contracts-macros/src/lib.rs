@@ -25,9 +25,6 @@ pub fn make_answer(_item: TokenStream) -> TokenStream {
     }"#
     .to_string();
 
-    // let mut result = "pub mod @@package_name@@_grpc {\ntonic::include_proto!(\"@@package_name@@\");\n}".to_string();
-
-
     let key_value = _item
         .to_string()
         .split(",")
@@ -38,11 +35,9 @@ pub fn make_answer(_item: TokenStream) -> TokenStream {
         })
         .collect::<Vec<(String, String)>>();
 
-    println!("{:#?}", key_value);
     for (key, value) in key_value {
         result = result.replace(&format!("@@{}@@", key), &value);
     }
 
-    println!("{}", result);
     result.parse().unwrap()
 }
